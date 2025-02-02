@@ -1,4 +1,4 @@
-from sqlalchemy.orm import Session
+from flask import Flask, jsonify
 from database import get_db
 from models import SensorData
 from datetime import datetime, UTC
@@ -34,16 +34,52 @@ class Commands:
     @staticmethod
     def fetch_all():
         """Retrieve all sensor readings."""
-        with next(get_db()) as db:
-            results = db.query(SensorData).order_by(SensorData.time.desc()).all()
-            return results  # Returns a list of SensorData objects
+        try:
+            with next(get_db()) as db:
+                results = db.query(SensorData).order_by(SensorData.time.desc()).all()
+
+                if not results:
+                    return jsonify({"error": "No sensor data found"}), 404
+
+                # Convert SQLAlchemy objects to a list of dictionaries
+                response = [
+                    {
+                        "id": data.id,
+                        "time": data.time.isoformat(),  # Convert datetime to string
+                        "sensor_id": data.sensor_id,
+                        "temperature": data.temperature,
+                    }
+                    for data in results
+                ]
+
+                return jsonify(response)  # ✅ Now JSON serializable!
+
+        except Exception as e:
+            return jsonify({"error": str(e)}), 500
 
     @staticmethod
     def fetch_latest(n=10):
         """Retrieve the latest N sensor readings."""
-        with next(get_db()) as db:
-            results = db.query(SensorData).order_by(SensorData.time.desc()).limit(n).all()
-            return results
+        try:
+            with next(get_db()) as db:  # Ensure session is obtained correctly
+                latest_sensor_data = db.query(SensorData).order_by(SensorData.time.desc()).limit(n).all()
+
+                if latest_sensor_data:
+                    # Convert SQLAlchemy objects to dictionaries
+                    result = [
+                        {
+                            "id": data.id,
+                            "time": data.time.isoformat(),  # Convert datetime to string
+                            "sensor_id": data.sensor_id,
+                            "temperature": data.temperature,
+                        }
+                        for data in latest_sensor_data
+                    ]
+                    return jsonify(result)  # ✅ Now returns multiple rows!
+
+                return jsonify({"error": "No sensor data found"}), 404
+        except Exception as e:
+            return jsonify({"error": str(e)}), 500 
 
     @staticmethod
     def update_sensor_temperature(sensor_id: str, new_temperature: float):
