@@ -6,11 +6,12 @@ from sqlalchemy import create_engine
 from models import SensorData, Base
 from config import DATABASE_URL
 from database import get_db, init_db
+from load_test_data import load_test_data
 
 # Function to insert sensor data
 def insert_sensor_data(db: Session):
     sensor_id = f"sensor_{random.randint(1, 5)}"
-    temperature = round(random.uniform(20.0, 30.0), 2)  # Random temp between 20-30°C
+    temperature = round(random.uniform(20.0, 90.0), 2)  # Random temp between 20-30°C
     timestamp = datetime.now(UTC)
     
     # Create new sensor reading
@@ -21,7 +22,7 @@ def insert_sensor_data(db: Session):
     )
     db.add(new_data)
     db.commit()
-    print(f"✅ Inserted: {sensor_id} - Temp: {temperature}°C at {timestamp}")
+    print(f"✅ Inserted: {sensor_id} - Temp: {temperature}°C at {timestamp}\n")
 
 # Bulk insert multiple records
 def insert_bulk_data(db: Session, n=10):
@@ -50,11 +51,12 @@ if __name__ == "__main__":
     db = next(get_db())
     
     try:
-        # Insert single record
-        insert_sensor_data(db)
+        load_test_data()
+        # # Insert single record
+        # insert_sensor_data(db)
         
-        # Insert bulk records
-        insert_bulk_data(db, 10)  # Insert 10 records
+        # # Insert bulk records
+        # insert_bulk_data(db, 10)  # Insert 10 records
         
     except Exception as e:
         print(f"❌ Error: {str(e)}")
