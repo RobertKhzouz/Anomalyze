@@ -12,17 +12,19 @@ from load_test_data import load_test_data
 def insert_sensor_data(db: Session):
     sensor_id = f"sensor_{random.randint(1, 5)}"
     temperature = round(random.uniform(20.0, 90.0), 2)  # Random temp between 20-30°C
+    pressure = round(random.uniform(10, 100), 2)
     timestamp = datetime.now(UTC)
     
     # Create new sensor reading
     new_data = SensorData(
         sensor_id=sensor_id, 
         temperature=temperature, 
+        pressure=pressure,
         time=timestamp
     )
     db.add(new_data)
     db.commit()
-    print(f"✅ Inserted: {sensor_id} - Temp: {temperature}°C at {timestamp}\n")
+    print(f"✅ Inserted: {sensor_id} - Temp: {temperature}°C - Pressure: {pressure} at {timestamp}\n")
 
 # Bulk insert multiple records
 def insert_bulk_data(db: Session, n=10):
@@ -30,12 +32,14 @@ def insert_bulk_data(db: Session, n=10):
     for _ in range(n):
         sensor_id = f"sensor_{random.randint(1, 5)}"
         timestamp = datetime.now(UTC)
-        temperature = round(random.uniform(20.0, 30.0), 2)
+        temperature = round(random.uniform(20.0, 90.0), 2)
+        pressure = round(random.uniform(10, 100), 2)
         
         bulk_data.append(SensorData(
             sensor_id=sensor_id,
             temperature=temperature,
-            time=timestamp
+            pressure=pressure,
+            time=timestamp,
         ))
     
     db.add_all(bulk_data)

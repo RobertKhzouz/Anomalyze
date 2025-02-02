@@ -10,3 +10,4 @@ class SensorData(Base):
     time = Column(TIMESTAMP, server_default=func.now(), nullable=False)
     sensor_id = Column(String, nullable=False)
     temperature = Column(Float, nullable=False)
+    pressure = Column(Float, nullable=False)

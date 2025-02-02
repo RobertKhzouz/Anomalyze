@@ -5,20 +5,33 @@ import './Dashboard.css';
 export default function Dashboard() {
 
   const [latestTemperature, setLatestTemperature] = useState(70);
+  const [latestPressure, setLatestPressure] = useState(70);
 
   useEffect(() => {
     const fetchLatestTemperature = async () => {
       try {
         const response = await axios.get("http://127.0.0.1:5050/api/fetch_latest");
-        console.log(response)
         setLatestTemperature(response["data"][0]["temperature"]);
       } catch (err) {
         console.error("Error fetching latest temperature:", err);
       }
     };
+    const fetchLatestPressure = async () => {
+      try {
+        const response = await axios.get("http://127.0.0.1:5050/api/fetch_latest");
+        setLatestPressure(response["data"][0]["pressure"]);
+      } catch (err) {
+        console.error("Error fetching latest pressure:", err)
+      }
+    };
     fetchLatestTemperature();
-    const interval = setInterval(fetchLatestTemperature, 5000);
-    return () => clearInterval(interval);
+    fetchLatestPressure();
+    const interval = setInterval(fetchLatestTemperature, 500);
+    const interval2 = setInterval(fetchLatestPressure, 500);
+    return () => {
+      clearInterval(interval);
+      clearInterval(interval2);
+    };
   }, []);
 
   return (
@@ -50,7 +63,7 @@ export default function Dashboard() {
 
           <div class="control-panel-item">
             <h3>Air Pressure</h3>
-            <span>--- hPa</span>
+            <span>{latestPressure}</span>
           </div>
           <div class="control-panel-item">
             <h3>Humidity</h3>

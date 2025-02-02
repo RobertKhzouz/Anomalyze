@@ -7,24 +7,25 @@ class Commands:
     """Helper class for common SQL queries on sensor_data."""
 
     @staticmethod
-    def insert_sensor(sensor_id: str, temperature: float):
+    def insert_sensor(sensor_id: str, temperature: float, pressure: float):
         """Insert a new sensor reading into the database."""
         with next(get_db()) as db:
             new_data = SensorData(
                 sensor_id=sensor_id,
                 temperature=temperature,
+                pressure=pressure,
                 time=datetime.now(UTC)
             )
             db.add(new_data)
             db.commit()
-            print(f"✅ Inserted: {sensor_id} - Temp: {temperature}°C at {new_data.time}")
+            print(f"✅ Inserted: {sensor_id} - Temp: {temperature}°C & Pressure: {pressure} at {new_data.time}")
 
     @staticmethod
     def insert_bulk_sensors(sensor_readings: list):
         """Insert multiple sensor readings."""
         with next(get_db()) as db:
             bulk_data = [
-                SensorData(sensor_id=sensor, temperature=temp, time=datetime.now(UTC))
+                SensorData(sensor_id=sensor, temperature=temp, pressure=pressure, time=datetime.now(UTC))
                 for sensor, temp in sensor_readings
             ]
             db.add_all(bulk_data)
@@ -48,6 +49,7 @@ class Commands:
                         "time": data.time.isoformat(),  # Convert datetime to string
                         "sensor_id": data.sensor_id,
                         "temperature": data.temperature,
+                        "pressure": data.pressure,
                     }
                     for data in results
                 ]
@@ -58,7 +60,7 @@ class Commands:
             return jsonify({"error": str(e)}), 500
 
     @staticmethod
-    def fetch_latest(n=10):
+    def fetch_latest(n=1):
         """Retrieve the latest N sensor readings."""
         try:
             with next(get_db()) as db:  # Ensure session is obtained correctly
@@ -72,6 +74,7 @@ class Commands:
                             "time": data.time.isoformat(),  # Convert datetime to string
                             "sensor_id": data.sensor_id,
                             "temperature": data.temperature,
+                            "pressure": data.pressure,
                         }
                         for data in latest_sensor_data
                     ]
@@ -82,16 +85,17 @@ class Commands:
             return jsonify({"error": str(e)}), 500 
 
     @staticmethod
-    def update_sensor_temperature(sensor_id: str, new_temperature: float):
+    def update_sensor_info(sensor_id: str, new_temperature: float, new_pressure: float):
         """Update the temperature of a specific sensor."""
         with next(get_db()) as db:
             sensor_record = db.query(SensorData).filter(SensorData.sensor_id == sensor_id).first()
             if sensor_record:
-                print(f"🔍 Before Update: {sensor_record.sensor_id} - {sensor_record.temperature}°C")
+                print(f"🔍 Before Update: {sensor_record.sensor_id} - {sensor_record.temperature}°C - {sensor_record.pressure}")
                 sensor_record.temperature = new_temperature
+                sensor_record.pressure = new_pressure
                 db.commit()
                 db.refresh(sensor_record)
-                print(f"✅ Updated: {sensor_record.sensor_id} - {sensor_record.temperature}°C")
+                print(f"✅ Updated: {sensor_record.sensor_id} - {sensor_record.temperature}°C - {sensor_record.pressure}")
             else:
                 print(f"⚠️ No record found for {sensor_id}")
 

@@ -18,7 +18,7 @@ def load_test_data():
 
     try:
         for i in range(10000):
-            table.insert_sensor(random.randint(1,10), i % 100)
+            table.insert_sensor(random.randint(1,10), i % 90, i % 100)
         
     except Exception as e:
         print(f"❌ Error: {str(e)}")
