@@ -1,5 +1,6 @@
 from ultralytics import YOLO
 
+
 # Load models once (so they are not reloaded on every request)
 animal_model = YOLO('fullmodel/yolov8n.pt')  # Animal detection model
 knife_model = YOLO('fullmodel/weights.pt')    # Knife detection model

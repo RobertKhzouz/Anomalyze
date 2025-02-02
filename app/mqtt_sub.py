@@ -20,7 +20,7 @@ def on_message(client, userdata, msg):
     sensor_id = random.randint(1,10)
     temperature = pi_data['sensor']['temperature']
     pressure = pi_data['sensor']['pressure']
-    # image = decode(pi_data['image'])
+    image = decode(pi_data['image'])
     Commands.insert_sensor(sensor_id=sensor_id, temperature=temperature, pressure=pressure)
 
 

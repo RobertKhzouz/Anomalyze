@@ -1,9 +1,8 @@
 from flask import Flask, Response
 import cv2
-from fullmodel.fullmodel import animal_model, knife_model, ANIMAL_CLASSES, KNIFE_CLASSES  # Import models from models.py
+from fullmodel.fullmodel import animal_model, knife_model, ANIMAL_CLASSES, KNIFE_CLASSES
 
-app = Flask(__name__)
-image = cv2.imread('fullmodel/test6.png')
+
 
 def detect_objects(image, model, class_filter, color):
     results = model(image)
@@ -37,10 +36,3 @@ def detect_animals_and_knives(image):
     # Return the image as an HTTP response
     return Response(image_bytes, mimetype='image/jpeg')
 
-@app.route("/")
-def detect():
-    return detect_animals_and_knives(image)
-
-
-if __name__ == "__main__":
-    app.run(debug=True, port=5000)
