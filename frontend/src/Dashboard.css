@@ -1,0 +1,150 @@
+/* Main Page Styles */
+body {
+    background-color: #2f2f2f;
+    font-family: 'Arial', sans-serif;
+    color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Header Section */
+  header {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #1c1c1c;
+    padding: 20px;
+    text-align: center;
+    font-size: 28px;
+    font-weight: bold;
+    color: #f0f0f0;
+  }
+
+  /* Profile Button */
+  .profile-button {
+    position: absolute;
+    top: 4%;
+    right: 20px;
+    transform: translateY(-50%);
+    background-color: #3a3a3a;
+    color: #f0f0f0;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+
+/* Container for the dropdown */
+.dropdown {
+    position: relative; /* Needed to position the dropdown content correctly */
+    display: inline-block;
+  }
+  
+  /* Button styles */
+  .dropdown-btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #4CAF50; /* Green background */
+    color: white;
+    border: none;
+    border-radius: 5px;
+  }
+  
+  /* The dropdown content (hidden by default) */
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+  }
+  
+  /* Style the dropdown links */
+  .dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+  }
+  
+  /* Change color of dropdown links on hover */
+  .dropdown-content a:hover {
+    background-color: #ddd;
+  }
+  
+  /* Show the dropdown when hovering over the button */
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }  
+
+
+  .profile-button:hover {
+    background-color: #2f2f2f;
+  }
+  
+  /* Dashboard Container */
+  .dashboard-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  /* Live Video Feed Section */
+  .live-feed {
+    width: 100%;
+    max-width: 800px;
+    height: 400px;
+    border: 2px dashed #f0f0f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px 0;
+  }
+  
+  .live-feed span {
+    color: #f0f0f0;
+    font-size: 18px;
+    font-style: italic;
+  }
+  
+  /* Control Panel Section */
+  .control-panel {
+    background-color: #3a3a3a;
+    padding: 20px;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 800px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  
+  .control-panel-item {
+    background-color: #6754c5;
+    padding: 15px;
+    border: 1px solid #f0f0f0;
+    border-radius: 5px;
+    text-align: center;
+  }
+  
+  .control-panel-item h3 {
+    margin: 0;
+    font-size: 16px;
+    color: #f0f0f0;
+  }
+  
+  /* Example Styling for Panel Labels */
+  .control-panel-item span {
+    display: block;
+    font-size: 22px;
+    font-weight: bold;
+    color: #f0f0f0;
+  }
+  
