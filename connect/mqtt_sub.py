@@ -1,4 +1,6 @@
 import paho.mqtt.client as mqtt
+import json
+from decode_img import decode
 
 #Variable names to identify broker
 hostname = '35.23.168.227'
@@ -11,8 +13,11 @@ def on_connect(client, data, flags, rc):
 
 
 def on_message(client, userdata, msg):
-    print(f'Message received: {msg.payload.decode()}')
-    
+    print('Message received')
+    pi_data = json.loads(msg.payload.decode())
+    temperature = pi_data['sensor']['temperature']
+    pressure = pi_data['sensor']['pressure']
+    image = decode(pi_data['image'])
 
 
 def on_subscribe(client, userdata, mid, qos):
