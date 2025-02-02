@@ -1,27 +1,21 @@
 import React, { useEffect, useState } from 'react'
 import axios from "axios";
 import './Dashboard.css';
-import {io} from "socket.io-client"
-
-export default function WebSocketImage() {
-  const [imageUrl, setImageUrl] = useState("");
-
-  useEffect(() => {
-    const socket = io("http://localhost:5000");
-
-    socket.on("update_image", (newImageUrl) => {
-      setImageUrl(newImageUrl);
-    });
-
-    return () => socket.disconnect();
-  }, []);
-
-    return <img src={imageUrl} alt={'Live Update'} style={{ width: "300px" }} />;
-}
 
 
+const VideoFeed = () => {
+  return (
+    <div>
+      <h2>Live YOLO Detection</h2>
+      <img
+        src="http://localhost:5000/video_feed"
+        alt="Live Video Feed"
+        style={{ width: "80%", border: "2px solid black" }}
+      />
+    </div>
+  );
+};
 
-}
 
 export default function Dashboard() {
 
@@ -73,7 +67,7 @@ export default function Dashboard() {
 
       <div class="dashboard-container">
         <div class="live-feed">
-          <span>Live video feed placeholder</span>
+          <span>VideoFeed()</span>
 
         </div>
         <div class="control-panel">
