@@ -7,14 +7,14 @@ import Dashboard from './Dashboard';
 createRoot(document.getElementById('root')).render(
   <StrictMode>
 
-<Router>
+    <Router>
       <Routes>
-        
+
         <Route path="/" element={<AuthPage />} />
-        
+
         <Route path="/Dashboard" element={<Dashboard />} />
       </Routes>
     </Router>
-    
+
   </StrictMode>,
 )
